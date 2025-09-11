@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookaura - Discover Your Next Read</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            color: #4361ee;
+        }
+        
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .nav-middle {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-link:hover {
+            color: #4361ee;
+        }
+        
+        .nav-link.active {
+            color: #4361ee;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4361ee;
+            border-radius: 2px;
+        }
+        
+        .nav-right {
+            position: relative;
+        }
+        
+        .account-icon {
+            font-size: 1.5rem;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .account-icon:hover {
+            color: #4361ee;
+        }
+        
+        .auth-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 1rem;
+            width: 200px;
+            margin-top: 0.5rem;
+            z-index: 101;
+        }
+        
+        .auth-dropdown.show {
+            display: block;
+        }
+        
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        .auth-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .auth-btn.google {
+            color: #DB4437;
+        }
+        
+        .auth-btn.github {
+            color: #333;
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .see-all {
+            color: #4361ee;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* Horizontal book list (for home page) */
+        .book-list-horizontal {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0.5rem;
+            scrollbar-width: thin;
+        }
+        
+        .book-list-horizontal::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .book-list-horizontal::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+        
+        /* Vertical book list (for see all/explore pages) */
+        .book-list-vertical {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+        
+        .book-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .book-cover {
+            height: 220px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 3rem;
+        }
+        
+        .book-info {
+            padding: 1rem;
+        }
+        
+        .book-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Explore Dropdown */
+        .explore-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            margin-top: 0.5rem;
+            z-index: 101;
+        }
+        
+        .explore-dropdown.show {
+            display: block;
+        }
+        
+        .dropdown-option {
+            display: block;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .dropdown-option:hover {
+            background-color: #e9ecef;
+        }
+        
+        /* Pages */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #4361ee;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+            
+            .nav-middle {
+                gap: 1rem;
+            }
+            
+            .app-name {
+                font-size: 1.2rem;
+            }
+            
+            .book-card {
+                width: 100%;
+            }
+            
+            .book-cover {
+                height: 180px;
+            }
+            
+            .book-list-vertical {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+
+        /* Floating Chatbot Button */
+        .chatbot-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #c9e4de 0%, #b5d6cb 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+        }
+        
+        .chatbot-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chatbot-button:active {
+            transform: scale(0.95);
+        }
+        
+        .chatbot-button i {
+            font-size: 32px;
+            color: #fff8f0;
+            transition: transform 0.3s ease;
+        }
+        
+        .chatbot-button:hover i {
+            transform: scale(1.2);
+        }
+        
+        /* Pulse animation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(181, 214, 203, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(181, 214, 203, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(181, 214, 203, 0);
+            }
+        }
+        
+        .chatbot-button.pulse {
+            animation: pulse 2s infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div class="app-name">Bookaura</div>
+        </div>
+        
+        <div class="nav-middle">
+            <a class="nav-link active" data-page="home">Home</a>
+            <a class="nav-link" id="explore-link" data-page="explore">Explore</a>
+            <a class="nav-link" data-page="library">Library</a>
+            <a href="timeline.html" class="nav-link" data-page="timeline">Timeline</a>
+            <a class="nav-link" data-page="post">Post</a>
+            
+            <div class="explore-dropdown" id="explore-dropdown">
+                <a class="dropdown-option" data-category="trending">Trending</a>
+                <a class="dropdown-option" data-category="genres">Genres</a>
+            </div>
+        </div>
+        
+        <div class="nav-right">
+            <div class="account-icon" id="account-icon">
+                <i class="fas fa-user-circle"></i>
+            </div>
+
+            <div class="auth-dropdown" id="auth-dropdown">
+                <button class="auth-btn google">
+                    <i class="fab fa-google"></i> Sign in with Google
+                </button>
+                <button class="auth-btn github">
+                    <i class="fab fa-github"></i> Sign in with GitHub
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <!-- Trending Section -->
+            <div class="section">
+                <div class="section-title">
+                    <h2>Trending</h2>
+                    <span class="see-all" data-category="trending">See All</span>
+                </div>
+                <div class="book-list-horizontal" id="trending-list">
+                    <!-- Books will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Genres Section -->
+            <div class="section" style="margin-top: 3rem;">
+                <div class="section-title">
+                    <h2>Genres</h2>
+                    <span class="see-all" data-category="genres">See All</span>
+                </div>
+                <div class="book-list-horizontal" id="genres-list">
+                    <!-- Books will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- Floating Chatbot Button -->
+    <a href="chatbot.html" ><button class="chatbot-button pulse">
+        <i class="fas fa-robot"></i>
+    </button></a>
+    
+</body>
+</html>

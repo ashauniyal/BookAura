@@ -1,0 +1,110 @@
+ // Generate timeline.html file
+        function generateTimelineHTML() {
+            // Create a Blob with the HTML content
+            const timelineHTML = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Bookaura - Reading Timeline</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <script src="script.js"></script>
+                <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background-color: #f5f5f5;
+                        color: #333;
+                        margin: 0;
+                        padding: 2rem;
+                    }
+                    .timeline-container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        background-color: #fff;
+                        border-radius: 12px;
+                        padding: 2rem;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    }
+                    .timeline-header {
+                        text-align: center;
+                        margin-bottom: 2rem;
+                    }
+                    .timeline-list {
+                        list-style-type: none;
+                        padding: 0;
+                    }
+                    .timeline-item {
+                        padding: 1.5rem;
+                        border-left: 3px solid #4361ee;
+                        margin-bottom: 1.5rem;
+                        background-color: #f8f9fa;
+                        border-radius: 0 8px 8px 0;
+                        position: relative;
+                    }
+                    .timeline-item::before {
+                        content: '';
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        background: #4361ee;
+                        border-radius: 50%;
+                        left: -7.5px;
+                        top: 1.8rem;
+                    }
+                    .timeline-book {
+                        font-weight: bold;
+                        font-size: 1.2rem;
+                        color: #333;
+                        margin-bottom: 0.5rem;
+                    }
+                    .timeline-time {
+                        font-size: 1.1rem;
+                        color: #4361ee;
+                        margin-bottom: 0.3rem;
+                    }
+                    .timeline-date {
+                        color: #666;
+                        font-size: 0.9rem;
+                    }
+                    .empty-timeline {
+                        text-align: center;
+                        color: #999;
+                        padding: 2rem;
+                    }
+                </style>
+            </head>
+            <body>
+        <div class="page active" id="timeline-page">
+            <h2>Reading Timeline</h2>
+            <p>Track your reading sessions and see your progress over time.</p>
+            
+            <!-- Stopwatch Container -->
+            <div class="stopwatch-container">
+                <h3>Reading Stopwatch</h3>
+                <div class="stopwatch-display" id="stopwatch">00:00:00</div>
+                
+                <div class="stopwatch-controls">
+                    <button class="stopwatch-btn start-btn" id="startBtn">Start</button>
+                    <button class="stopwatch-btn pause-btn" id="pauseBtn" disabled>Pause</button>
+                    <button class="stopwatch-btn reset-btn" id="resetBtn" disabled>Reset</button>
+                    <button class="stopwatch-btn save-btn" id="saveBtn" disabled>Save Session</button>
+                </div>
+                
+                <input type="text" class="book-name-input" id="bookNameInput" placeholder="Enter book name">
+            </div>
+            
+            <!-- Timeline Container -->
+            <div class="timeline-container">
+                <div class="timeline-header">
+                    <h3>Your Reading History</h3>
+                </div>
+                
+                <ul class="timeline-list" id="timelineList">
+                    <li class="empty-timeline">No reading sessions recorded yet. Start the stopwatch to begin tracking!</li>
+                </ul>
+            </div>
+        </div>
+
+            </body>
+            </html>

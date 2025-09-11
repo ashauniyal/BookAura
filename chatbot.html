@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf6f0 0%, #fcefe3 100%);
+            color: #5a5a5a;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #7c4d3d;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #9b6b5b;
+        }
+        
+        .chat-container {
+            background-color: #fffaf5;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            border: 1px solid #ffe5d9;
+        }
+        
+        .chat-header {
+            background: linear-gradient(to right, #c9e4de 0%, #b5d6cb 100%);
+            color: #3c6d61;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background-color: #fffaf5;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message {
+            background-color: #e2f0f6;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            color: #4a6d7c;
+        }
+        
+        .user-message {
+            background: linear-gradient(to right, #ffc8dd 0%, #ffafcc 100%);
+            color: #7c4d5a;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background-color: #f8f2ec;
+            border-top: 1px solid #ffe5d9;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ffd6cc;
+            border-radius: 20px;
+            font-size: 1rem;
+            outline: none;
+            background-color: #fffaf5;
+            color: #7c4d3d;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #ffafcc;
+            box-shadow: 0 0 0 2px rgba(255, 175, 204, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(to right, #a5c9ca 0%, #8bbabb 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #8bbabb 0%, #7aacad 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .option-button {
+            background-color: #e2f0f6;
+            border: 1px solid #b5d6cb;
+            color: #4a6d7c;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .option-button:hover {
+            background-color: #c9e4de;
+            transform: translateY(-2px);
+        }
+        
+        .recommendation {
+            background-color: #fff8f0;
+            border-left: 4px solid #ffd6cc;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: #7c4d3d;
+            font-size: 1.1rem;
+        }
+        
+        .book-author {
+            font-style: italic;
+            color: #9b6b5b;
+            margin: 5px 0;
+        }
+        
+        .book-description {
+            margin-top: 8px;
+            color: #7c6d5a;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #9b8b7b;
+            font-size: 0.9rem;
+        }
+        
+        /* Scrollbar styling */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: #fcefe3;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #ffd6cc;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #ffafcc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                BookBot - Your Personal Reading Assistant
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Hi there! I'm BookBot, here to help you find your next great read. Let's start with your preferred genre. What type of books do you enjoy?
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message here...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            
+            // Conversation state
+            let state = 'awaiting-genre';
+            let selectedGenre = '';
+            let selectedPersonality = '';
+            
+            // Book database
+            const bookDatabase = {
+                fantasy: {
+                    introvert: [
+                        {
+                            title: "The Name of the Wind",
+                            author: "Patrick Rothfuss",
+                            description: "A breathtaking coming-of-age story about a gifted young man's search for meaning in a magical world."
+                        },
+                        {
+                            title: "Jonathan Strange & Mr Norrell",
+                            author: "Susanna Clarke",
+                            description: "In 19th-century England, two magicians emerge to bring magic back to the nation."
+                        }
+                    ],
+                    extrovert: [
+                        {
+                            title: "Mistborn: The Final Empire",
+                            author: "Brandon Sanderson",
+                            description: "A epic fantasy heist story featuring a crew of talented misfits trying to overthrow an immortal emperor."
+                        },
+                        {
+                            title: "The Lies of Locke Lamora",
+                            author: "Scott Lynch",
+                            description: "Follow the adventures of a clever con artist and his band of thieves in a dangerous fantasy city."
+                        }
+                    ],
+                    analytical: [
+                            {
+                            title: "The Way of Kings",
+                            author: "Brandon Sanderson",
+                            description: "A deeply complex epic fantasy with intricate magic systems and world-building."
+                        },
+                        {
+                            title: "The Fifth Season",
+                            author: "N.K. Jemisin",
+                            description: "A groundbreaking fantasy novel with unique geological magic and complex societal structures."
+                        }
+                    ],
+                    emotional: [
+                        {
+                            title: "The Night Circus",
+                            author: "Erin Morgenstern",
+                            description: "A magical competition between two illusionists set in a mysterious circus that appears without warning."
+                        },
+                        {
+                            title: "Uprooted",
+                            author: "Naomi Novik",
+                            description: "A fairy tale-inspired story about a young woman taken by a mysterious wizard to serve him."
+                        }
+                    ]
+                },
+                mystery: {
+                    introvert: [
+                        {
+                            title: "The Silent Patient",
+                            author: "Alex Michaelides",
+                            description: "A psychological thriller about a woman who shoots her husband and then stops speaking."
+                        },
+                        {
+                            title: "Gone Girl",
+                            author: "Gillian Flynn",
+                            description: "A dark psychological thriller about a marriage gone terribly wrong."
+                        }
+                    ],
+                    extrovert: [
+                        {
+                            title: "The Thursday Murder Club",
+                            author: "Richard Osman",
+                            description: "A group of retirees meet weekly to solve cold cases until a real murder occurs."
+                        },
+                        {
+                            title: "The 7½ Deaths of Evelyn Hardcastle",
+                            author: "Stuart Turton",
+                            description: "A mind-bending murder mystery where the protagonist lives the same day through different witnesses."
+                        }
+                    ],
+                    analytical: [
+                        {
+                            title: "The Girl with the Dragon Tattoo",
+                            author: "Stieg Larsson",
+                            description: "A journalist and a hacker investigate a decades-old disappearance."
+                        },
+                        {
+                            title: "And Then There Were None",
+                            author: "Agatha Christie",
+                            description: "Ten strangers are lured to an isolated island and killed off one by one."
+                        }
+                    ],
+                    emotional: [
+                        {
+                            title: "Big Little Lies",
+                            author: "Liane Moriarty",
+                            description: "A murder mystery that explores the secrets and lies beneath the surface of suburban life."
+                        },
+                        {
+                            title: "The Secret History",
+                            author: "Donna Tartt",
+                            description: "A group of classics students conspire to murder under the influence of their charismatic professor."
+                        }
+                    ]
+                },
+                scifi: {
+                    introvert: [
+                        {
+                            title: "Solaris",
+                            author: "Stanisław Lem",
+                            description: "Psychologists study a sentient ocean on a distant planet that manifests their deepest memories."
+                        },
+                        {
+                            title: "The Left Hand of Darkness",
+                            author: "Ursula K. Le Guin",
+                            description: "A human ambassador is sent to a planet where inhabitants can change their gender."
+                        }
+                    ],
+                    extrovert: [
+                        {
+                            title: "Red Rising",
+                            author: "Pierce Brown",
+                            description: "A revolution led by a low-caste miner in a color-coded society on Mars."
+                        },
+                        {
+                            title: "Old Man's War",
+                            author: "John Scalzi",
+                            description: "Senior citizens are recruited for interstellar warfare with rejuvenated bodies."
+                        }
+                    ],
+                    analytical: [
+                        {
+                            title: "Blindsight",
+                            author: "Peter Watts",
+                            description: "First contact with aliens raises questions about consciousness and intelligence."
+                        },
+                        {
+                            title: "Anathem",
+                            author: "Neal Stephenson",
+                            description: "Monastic scholars emerge from seclusion to save the world from an extraterrestrial threat."
+                        }
+                    ],
+                    emotional: [
+                        {
+                            title: "The Long Way to a Small, Angry Planet",
+                            author: "Becky Chambers",
+                            description: "A cozy space opera focusing on relationships aboard a tunneling spaceship."
+                        },
+                        {
+                            title: "Kindred",
+                            author: "Octavia E. Butler",
+                            description: "A Black woman is transported back in time to the antebellum South."
+                        }
+                    ]
+                },
+                romance: {
+                    introvert: [
+                        {
+                            title: "The Flatshare",
+                            author: "Beth O'Leary",
+                            description: "Two people share an apartment and communicate through notes without ever meeting."
+                        },
+                        {
+                            title: "Eleanor Oliphant Is Completely Fine",
+                            author: "Gail Honeyman",
+                            description: "A socially awkward woman's life changes when she develops a crush on a musician."
+                        }
+                    ],
+                    extrovert: [
+                        {
+                            title: "The Hating Game",
+                            author: "Sally Thorne",
+                            description: "Two competitive executive assistants engage in romantic gamesmanship."
+                        },
+                        {
+                            title: "Red, White & Royal Blue",
+                            author: "Casey McQuiston",
+                            description: "The First Son of the United States falls in love with the Prince of England."
+                        }
+                    ],
+                    analytical: [
+                        {
+                            title: "The Kiss Quotient",
+                            author: "Helen Hoang",
+                            description: "An econometrician with Asperger's hires an escort to teach her about relationships."
+                        },
+                        {
+                            title: "The Bromance Book Club",
+                            author: "Lyssa Kay Adams",
+                            description: "A professional baseball player joins a secret romance book club to save his marriage."
+                        }
+                    ],
+                    emotional: [
+                        {
+                            title: "Me Before You",
+                            author: "Jojo Moyes",
+                            description: "A young woman becomes a caregiver for a paralyzed man, changing both their lives."
+                        },
+                        {
+                            title: "The Time Traveler's Wife",
+                            author: "Audrey Niffenegger",
+                            description: "A love story between a librarian who time travels and his artist wife."
+                        }
+                    ]
+                }
+            };
+            
+            // Genre options
+            const genres = ['Fantasy', 'Mystery', 'Sci-Fi', 'Romance'];
+            
+            // Personality types
+            const personalities = [
+                {name: 'Introvert', description: 'Quiet, reflective, and enjoys deep connections'},
+                {name: 'Extrovert', description: 'Outgoing, energetic, and enjoys social interactions'},
+                {name: 'Analytical', description: 'Logical, detail-oriented, and enjoys solving problems'},
+                {name: 'Emotional', description: 'Empathetic, intuitive, and values emotional experiences'}
+            ];
+            
+            // Add message to chat
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+                messageDiv.textContent = message;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Add options buttons
+            function addOptions(options, optionType) {
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+                
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.classList.add('option-button');
+                    button.textContent = typeof option === 'string' ? option : option.name;
+                    button.addEventListener('click', () => {
+                        if (optionType === 'genre') {
+                            handleGenreSelection(option);
+                        } else if (optionType === 'personality') {
+                            handlePersonalitySelection(option);
+                        }
+                    });
+                    optionsDiv.appendChild(button);
+                });
+                
+                chatMessages.appendChild(optionsDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Handle genre selection
+            function handleGenreSelection(genre) {
+                selectedGenre = genre.toLowerCase();
+                addMessage(genre, true);
+                
+                state = 'awaiting-personality';
+                addMessage("Great choice! Now, which of these personality types best describes you?");
+                addOptions(personalities, 'personality');
+            }
+            
+            // Handle personality selection
+            function handlePersonalitySelection(personality) {
+                selectedPersonality = personality.name.toLowerCase();
+                addMessage(personality.name, true);
+                
+                state = 'recommending';
+                addMessage(`Perfect! Based on your preference for ${selectedGenre} and your ${selectedPersonality} personality, I recommend:`);
+                
+                // Get recommendations
+                const recommendations = bookDatabase[selectedGenre][selectedPersonality];
+                
+                recommendations.forEach(book => {
+                    const recommendationDiv = document.createElement('div');
+                    recommendationDiv.classList.add('recommendation');
+                    
+                    recommendationDiv.innerHTML = `
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">by ${book.author}</div>
+                        <div class="book-description">${book.description}</div>
+                    `;
+                    
+                    chatMessages.appendChild(recommendationDiv);
+                });
+                
+                addMessage("Would you like recommendations for another genre? Type 'yes' or 'no'.");
+            }
+            
+            // Handle user input
+            function handleUserInput() {
+                const message = userInput.value.trim();
+                
+                if (message === '') return;
+                
+                addMessage(message, true);
+                userInput.value = '';
+                
+                if (state === 'awaiting-genre') {
+                    // Check if the message matches a genre
+                    const normalizedMessage = message.toLowerCase();
+                    const matchedGenre = genres.find(genre => genre.toLowerCase() === normalizedMessage);
+                    
+                    if (matchedGenre) {
+                        handleGenreSelection(matchedGenre);
+                    } else {
+                        addMessage("I'm not sure I know that genre. Please choose from the options below:");
+                        addOptions(genres, 'genre');
+                    }
+                } else if (state === 'recommending') {
+                    if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'y') {
+                        state = 'awaiting-genre';
+                        addMessage("Great! What genre would you like recommendations for?");
+                        addOptions(genres, 'genre');
+                    } else if (message.toLowerCase() === 'no' || message.toLowerCase() === 'n') {
+                        addMessage("Happy reading! Come back anytime you need more book recommendations.");
+                    } else {
+                        addMessage("I'm not sure what you mean. Please type 'yes' or 'no'.");
+                    }
+                }
+            }
+            
+            // Event listeners
+            sendButton.addEventListener('click', handleUserInput);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleUserInput();
+                }
+            });
+            
+            // Initial options
+            addOptions(genres, 'genre');
+        });
+    </script>
+</body>
+</html>
