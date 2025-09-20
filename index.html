@@ -1,223 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bookaura</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<div class="container">
-        <!-- Top Navigation Bar -->
-        <nav class="top-nav">
-            <div class="logo">BOOKAURA</div>
-            <div class="nav-links">
-                <a href="#" class="active">Home</a>
-                <a href="#">Explore</a>
-                <a href="#">Book</a>
-                <a href="#">Library</a>
-                <a href="#">Posts</a>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Top Navigation Bar -->
+      <nav class="top-nav">
+        <div class="logo">BOOKAURA</div>
+        <div class="nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="#">Explore</a>
+          <a href="#">Book</a>
+          <a href="#">Library</a>
+          <a href="#">Posts</a>
+        </div>
+        <div class="nav-right">
+          <button class="toggle-btn" id="modeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="account-btn" id="accountBtn">
+            <i class="fas fa-user-circle"></i>
+          </button>
+
+          <!-- Login/Signup Dropdown -->
+          <div class="auth-dropdown" id="authDropdown">
+            <h3>Welcome to Bookaura</h3>
+            <div class="auth-form">
+              <input type="email" placeholder="Email Address" id="loginEmail" />
+              <input
+                type="password"
+                placeholder="Password"
+                id="loginPassword"
+              />
+              <button id="loginBtn">Login</button>
+              <p>
+                Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+              </p>
             </div>
-            <div class="nav-right">
-                <button class="toggle-btn" id="modeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button class="account-btn" id="accountBtn">
-                    <i class="fas fa-user-circle"></i>
-                </button>
-                
-                <!-- Login/Signup Dropdown -->
-                <div class="auth-dropdown" id="authDropdown">
-                    <h3>Welcome to Bookaura</h3>
-                    <div class="auth-form">
-                        <input type="email" placeholder="Email Address" id="loginEmail">
-                        <input type="password" placeholder="Password" id="loginPassword">
-                        <button id="loginBtn">Login</button>
-                        <p>Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
-                    </div>
-                    
-                    <div class="auth-form" style="display:none;" id="signupForm">
-                        <input type="text" placeholder="Full Name" id="signupName">
-                        <input type="email" placeholder="Email Address" id="signupEmail">
-                        <input type="password" placeholder="Password" id="signupPassword">
-                        <button id="signupBtn">Create Account</button>
-                        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-                    </div>
-                </div>
+
+            <div class="auth-form" style="display: none" id="signupForm">
+              <input type="text" placeholder="Full Name" id="signupName" />
+              <input
+                type="email"
+                placeholder="Email Address"
+                id="signupEmail"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                id="signupPassword"
+              />
+              <button id="signupBtn">Create Account</button>
+              <p>
+                Already have an account? <a href="#" id="showLogin">Login</a>
+              </p>
             </div>
-        </nav>
+            <div style="display: none" id="dashboard">
+              <p id="UserName"></p>
+              <p id="UserEmail"></p>
+              <button class="logout" id="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </nav>
     </div>
 
     <!-- Bottom Navigation for Mobile -->
     <nav class="bottom-nav">
-        <div class="bottom-nav-links">
-            <a href="#" class="bottom-nav-link active">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="#" class="bottom-nav-link">
-                <i class="fas fa-compass"></i>
-                <span>Explore</span>
-            </a>
-            <a href="#" class="bottom-nav-link">
-                <i class="fas fa-book"></i>
-                <span>Book</span>
-            </a>
-            <a href="#" class="bottom-nav-link">
-                <i class="fas fa-book-open"></i>
-                <span>Library</span>
-            </a>
-            <a href="#" class="bottom-nav-link">
-                <i class="fas fa-file-alt"></i>
-                <span>Posts</span>
-            </a>
-        </div>
+      <div class="bottom-nav-links">
+        <a href="#" class="bottom-nav-link active">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-link">
+          <i class="fas fa-compass"></i>
+          <span>Explore</span>
+        </a>
+        <a href="#" class="bottom-nav-link">
+          <i class="fas fa-book"></i>
+          <span>Book</span>
+        </a>
+        <a href="#" class="bottom-nav-link">
+          <i class="fas fa-book-open"></i>
+          <span>Library</span>
+        </a>
+        <a href="#" class="bottom-nav-link">
+          <i class="fas fa-file-alt"></i>
+          <span>Posts</span>
+        </a>
+      </div>
     </nav>
     <!-- Hero Section with Carousel -->
-        <section class="hero">
-            <div class="carousel">
-                <div class="carousel-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="carousel-content">
-                        <h2>Discover Your Next Favorite Book</h2>
-                        <p>Explore millions of titles from around the world</p>
-                    </div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="carousel-content">
-                        <h2>Find Books by Your Favorite Authors</h2>
-                        <p>Search by author, title, or genre</p>
-                    </div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="carousel-content">
-                        <h2>Build Your Personal Library</h2>
-                        <p>Save and organize your favorite books</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="hero">
+      <div class="carousel">
+        <div
+          class="carousel-slide active"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Discover Your Next Favorite Book</h2>
+            <p>Explore millions of titles from around the world</p>
+          </div>
+        </div>
+        <div
+          class="carousel-slide"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Find Books by Your Favorite Authors</h2>
+            <p>Search by author, title, or genre</p>
+          </div>
+        </div>
+        <div
+          class="carousel-slide"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Build Your Personal Library</h2>
+            <p>Save and organize your favorite books</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <script>
-        // Toggle Dark/Light Mode
-        const modeToggle = document.getElementById('modeToggle');
-        const body = document.body;
-        const icon = modeToggle.querySelector('i');
+      // Toggle Dark/Light Mode
+      const modeToggle = document.getElementById("modeToggle");
+      const body = document.body;
+      const icon = modeToggle.querySelector("i");
 
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
+      // Check for saved theme preference
+      if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+      }
+
+      modeToggle.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+
+        if (body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+          icon.classList.remove("fa-moon");
+          icon.classList.add("fa-sun");
+        } else {
+          localStorage.setItem("theme", "light");
+          icon.classList.remove("fa-sun");
+          icon.classList.add("fa-moon");
+        }
+      });
+
+      // Mobile bottom nav active state
+      const bottomNavLinks = document.querySelectorAll(".bottom-nav-link");
+
+      bottomNavLinks.forEach((link) => {
+        link.addEventListener("click", function () {
+          bottomNavLinks.forEach((l) => l.classList.remove("active"));
+          this.classList.add("active");
+        });
+      });
+
+      // Image Carousel Functionality
+      const carouselSlides = document.querySelectorAll(".carousel-slide");
+      let currentSlide = 0;
+
+      function showSlide(n) {
+        carouselSlides.forEach((slide) => slide.classList.remove("active"));
+        currentSlide = (n + carouselSlides.length) % carouselSlides.length;
+        carouselSlides[currentSlide].classList.add("active");
+      }
+
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+
+      // Auto-advance carousel every 5 seconds
+      setInterval(nextSlide, 5000);
+
+      // Login/Signup Dropdown Functionality
+      const accountBtn = document.getElementById("accountBtn");
+      const authDropdown = document.getElementById("authDropdown");
+      const showSignup = document.getElementById("showSignup");
+      const showLogin = document.getElementById("showLogin");
+      const loginForm = document.querySelector(".auth-form");
+      const dashboard = document.getElementById("dashboard");
+      const signupForm = document.getElementById("signupForm");
+      const loginBtn = document.getElementById("loginBtn");
+      const signupBtn = document.getElementById("signupBtn");
+      const UserName = document.getElementById("UserName");
+      const UserEmail = document.getElementById("UserEmail");
+      const logout = document.getElementById("logout");
+
+      // Toggle dropdown visibility
+      accountBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        authDropdown.classList.toggle("show");
+        const getUser = JSON.parse(localStorage.getItem("data"));
+
+        if (getUser) {
+          signupForm.style.display = "none";
+          loginForm.style.display = "none";
+          dashboard.style.display = "block";
+          UserName.innerHTML = `${
+            getUser?.firstName + " " + getUser?.lastName
+          }`;
+          UserEmail.innerHTML = `${getUser?.emailId}`;
+        }
+      });
+
+      logout.addEventListener("click", () => {
+        localStorage.removeItem("data");
+        signupForm.style.display = "none";
+        dashboard.style.display = "none";
+        loginForm.style.display = "block";
+      });
+
+      // Hide dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!authDropdown.contains(e.target) && e.target !== accountBtn) {
+          authDropdown.classList.remove("show");
+        }
+      });
+
+      // Switch to signup form
+      showSignup.addEventListener("click", function (e) {
+        e.preventDefault();
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+      });
+
+      // Switch to login form
+      showLogin.addEventListener("click", function (e) {
+        e.preventDefault();
+        signupForm.style.display = "none";
+        loginForm.style.display = "block";
+      });
+
+      // Simple form validation and submission
+      loginBtn.addEventListener("click", async function () {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
+
+        const fullNameSchema = /^[A-Za-z\s]{3,20}$/;
+        const emailSchema =
+          /^[a-z0-9._%+-]{1,50}@[a-z0-9.-]{1,50}\.[a-z]{2,}$/i;
+        const passwordSchema =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,16}$/;
+        let error = "";
+
+        if (!emailSchema.test(email)) {
+          error = "Please enter a valid email address (max 50 characters).";
+        } else if (!passwordSchema.test(password)) {
+          error =
+            "Password must be 8–16 characters, include uppercase, lowercase, number, and special character.";
         }
 
-        modeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                localStorage.setItem('theme', 'light');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
+        if (error) {
+          alert(error);
+          return null;
+        } else {
+          await login({ emailId: email, password });
+        }
+      });
 
-        // Mobile bottom nav active state
-        const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
-        
-        bottomNavLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                bottomNavLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+      signupBtn.addEventListener("click", async function () {
+        const name = document.getElementById("signupName").value;
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
 
-        // Image Carousel Functionality
-        const carouselSlides = document.querySelectorAll('.carousel-slide');
-        let currentSlide = 0;
+        const fullNameSchema = /^[A-Za-z\s]{3,20}$/;
+        const emailSchema =
+          /^[a-z0-9._%+-]{1,50}@[a-z0-9.-]{1,50}\.[a-z]{2,}$/i;
+        const passwordSchema =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,16}$/;
+        let error = "";
 
-        function showSlide(n) {
-            carouselSlides.forEach(slide => slide.classList.remove('active'));
-            currentSlide = (n + carouselSlides.length) % carouselSlides.length;
-            carouselSlides[currentSlide].classList.add('active');
+        if (!fullNameSchema.test(name)) {
+          error =
+            "Full name must be 3–20 characters (letters and spaces only).";
+        } else if (!emailSchema.test(email)) {
+          error = "Please enter a valid email address (max 50 characters).";
+        } else if (!passwordSchema.test(password)) {
+          error =
+            "Password must be 8–16 characters, include uppercase, lowercase, number, and special character.";
         }
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
+        if (error) {
+          alert(error);
+          return null;
+        } else {
+          const firstName = name.split(" ")[0];
+          const lastName = name.split(" ")[1];
+          console.log(firstName, lastName, email, password);
+          await signup({
+            firstName,
+            lastName,
+            emailId: email,
+            password,
+            userName: email.split("@")[0],
+          });
         }
+      });
 
-        // Auto-advance carousel every 5 seconds
-        setInterval(nextSlide, 5000);
+      async function signup(body) {
+        try {
+          const res = await fetch("https://thedevtinder.vercel.app/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
 
-        // Login/Signup Dropdown Functionality
-        const accountBtn = document.getElementById('accountBtn');
-        const authDropdown = document.getElementById('authDropdown');
-        const showSignup = document.getElementById('showSignup');
-        const showLogin = document.getElementById('showLogin');
-        const loginForm = document.querySelector('.auth-form');
-        const signupForm = document.getElementById('signupForm');
-        const loginBtn = document.getElementById('loginBtn');
-        const signupBtn = document.getElementById('signupBtn');
+          const data = await res.json();
+          console.log(data);
 
-        // Toggle dropdown visibility
-        accountBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            authDropdown.classList.toggle('show');
-        });
+          alert(data.message);
 
-        // Hide dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!authDropdown.contains(e.target) && e.target !== accountBtn) {
-                authDropdown.classList.remove('show');
+          if (data.status) {
+            signupForm.style.display = "none";
+            loginForm.style.display = "block";
+          }
+
+          return data;
+        } catch (error) {
+          console.error(error.message);
+          alert("Something went wrong");
+        }
+      }
+
+      async function login(body) {
+        try {
+          const res = await fetch("https://thedevtinder.vercel.app/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+
+          const data = await res.json();
+          console.log(data);
+
+          if (data?.data) {
+            localStorage.setItem("data", JSON.stringify(data.data));
+            const getUser = JSON.parse(localStorage.getItem("data"));
+
+            if (getUser) {
+              signupForm.style.display = "none";
+              loginForm.style.display = "none";
+              dashboard.style.display = "block";
+              UserName.innerHTML = `${
+                getUser?.firstName + " " + getUser?.lastName
+              }`;
+              UserEmail.innerHTML = `${getUser?.emailId}`;
             }
-        });
+          }
 
-        // Switch to signup form
-        showSignup.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            signupForm.style.display = 'block';
-        });
-
-        // Switch to login form
-        showLogin.addEventListener('click', function(e) {
-            e.preventDefault();
-            signupForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        });
-
-        // Simple form validation and submission
-        loginBtn.addEventListener('click', function() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            if (email && password) {
-                alert('Login successful!');
-                authDropdown.classList.remove('show');
-                // Here you would typically send the data to your server
-            } else {
-                alert('Please fill in all fields');
-            }
-        });
-
-        signupBtn.addEventListener('click', function() {
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            if (name && email && password) {
-                alert('Account created successfully!');
-                authDropdown.classList.remove('show');
-                // Here you would typically send the data to your server
-            } else {
-                alert('Please fill in all fields');
-            }
-        });
+          alert(data.message);
+          return data;
+        } catch (error) {
+          console.error(error.message);
+          alert("Something went wrong");
+        }
+      }
     </script>
-</body>
-
+  </body>
 </html>
-
