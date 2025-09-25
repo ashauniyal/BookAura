@@ -214,11 +214,11 @@ body.dark-mode {
 }
 
 .bottom-nav-link.active {
-  color: #4a6cf7;
+  color: #8b4513;;
 }
 
 .dark-mode .bottom-nav-link.active {
-  color: #4a6cf7;
+  color: #8b4513;;
 }
 
 /* Content Area */
@@ -351,3 +351,4 @@ p {
   cursor: pointer;
   border-radius: 5px;
 }
+
