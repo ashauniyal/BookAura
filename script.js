@@ -403,22 +403,8 @@
         pauseBtn.addEventListener('click', pauseSpeech);
         stopBtn.addEventListener('click', stopSpeech);
 
-
-
-        //     EXPLORE PAGES LOGIC            .....
-
-         /* --- Slider Logic --- */
-    const slides = document.querySelectorAll(".slide");
-    let activeIndex = 0;
-    function setActiveSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-      });
-    }
-    setInterval(() => {
-      activeIndex = (activeIndex + 1) % slides.length;
-      setActiveSlide(activeIndex);
-    }, 3000);
+      
+        
 
     /* --- Books Data --- */
     const allBooks = Array.from({length: 500}, (_, i) => ({
@@ -545,5 +531,6 @@
    function displayError() {
      alert("search term can not be empty!")
    }
+
 
 });
