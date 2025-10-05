@@ -11,16 +11,16 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-          <!-- Top Navigation Bar -->
     <div class="container">
+      <!-- Top Navigation Bar -->
       <nav class="top-nav">
         <div class="logo">BOOKAURA</div>
         <div class="nav-links">
-          <a href="index.html" class="active">Home</a>
-          <a href="explore.html">Explore</a>
-          <a href="book.html">Book</a>
-          <a href="library.html">Library</a>
-          <a href="posts.html">Posts</a>
+          <a href="#" class="active">Home</a>
+          <a href="#">Explore</a>
+          <a href="#">Book</a>
+          <a href="#">Library</a>
+          <a href="#">Posts</a>
         </div>
         <div class="nav-right">
           <button class="toggle-btn" id="modeToggle">
@@ -76,101 +76,79 @@
     <!-- Bottom Navigation for Mobile -->
     <nav class="bottom-nav">
       <div class="bottom-nav-links">
-        <a href="index.html" class="bottom-nav-link active">
+        <a href="#" class="bottom-nav-link active">
           <i class="fas fa-home"></i>
           <span>Home</span>
         </a>
-        <a href="explore.html" class="bottom-nav-link">
+        <a href="#" class="bottom-nav-link">
           <i class="fas fa-compass"></i>
           <span>Explore</span>
         </a>
-        <a href="book.html" class="bottom-nav-link">
+        <a href="#" class="bottom-nav-link">
           <i class="fas fa-book"></i>
           <span>Book</span>
         </a>
-        <a href="library.html" class="bottom-nav-link">
+        <a href="#" class="bottom-nav-link">
           <i class="fas fa-book-open"></i>
           <span>Library</span>
         </a>
-        <a href="posts.html" class="bottom-nav-link">
+        <a href="#" class="bottom-nav-link">
           <i class="fas fa-file-alt"></i>
           <span>Posts</span>
         </a>
       </div>
     </nav>
-  </div>
-
-<section class="hero">
-    <div class="hero-text">
-      <h1>Discover Your Next Favorite Book</h1>
-      <p>Access thousands of books from anywhere, anytime. Start your reading journey today.</p>
-      <div class="button-group">
-        <button class="btn-primary"><a href="explore.html" style="text-decoration: none;">Browse Library</a></button>
-        <button class="btn-secondary">Sign Up Free</button>
-      </div>
-    </div>
-
-    <div class="hero-image">
-      <img src="images/Himage.jpg" alt="Library">
-    </div>   
-  </section>
-
-   <section class="newsletter-section">
-    <div class="newsletter-container">
-      <h1>Join Our Reading Community</h1>
-      <p>Subscribe to access premium book recommendations, reading insights, challenges, and community perks that elevate your reading journey.</p>
-
-      <!-- Plans Section -->
-      <div class="plans">
-        <div class="plan">
-          <h3>Basic Plan</h3>
-          <p>Monthly Access</p>
-          <p class="price">₹19 <span class="discount"></span></p>
-          <p class="plan-description">Get started with access to weekly book recommendations and member-only updates. Perfect for casual readers.</p>
+    <!-- Hero Section with Carousel -->
+    <section class="hero">
+      <div class="carousel">
+        <div
+          class="carousel-slide active"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1497636577773-f1231844b336?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Discover Your Next Favorite Book</h2>
+            <p>Explore millions of titles from around the world</p>
+          </div>
         </div>
-
-        <div class="plan">
-          <h3>Standard Plan</h3>
-          <p>6-Month Access</p>
-          <p class="price">₹39<span class="discount"></span></p>
-          <p class="plan-description">Enjoy premium recommendations, reading challenges, and special event invites. Great for regular readers.</p>
+        <div
+          class="carousel-slide"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Find Books by Your Favorite Authors</h2>
+            <p>Search by author, title, or genre</p>
+          </div>
         </div>
-
-        <div class="plan">
-          <h3>Premium Plan</h3>
-          <p>1-Year Access</p>
-          <p class="price">₹99<span class="discount"></span></p>
-          <p class="plan-description">Unlock full access to all premium content, exclusive offers, and early entry to reading events & giveaways.</p>
+        <div
+          class="carousel-slide"
+          style="
+            background-image: linear-gradient(
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+              ),
+              url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+          "
+        >
+          <div class="carousel-content">
+            <h2>Build Your Personal Library</h2>
+            <p>Save and organize your favorite books</p>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- UPI Payment Section -->
-      <div class="payment-section">
-        <p>Scan the QR code below to pay using UPI</p>
-        <img src="images\Asha_pay.jpeg" alt="UPI QR Code">
-
-      </div>
-
-      <!-- Subscribe Form -->
-      <form class="newsletter-form">
-        <input type="email" placeholder="Your email address" required />
-        <button type="submit">Subscribe</button>
-      </form>
-
-      <div class="footer-note">
-        *Once you complete payment, please subscribe using your email to confirm your membership.
-      </div>
-    </div>
-  </section>
-        <footer>
-          
-           <br><br> <p>&copy; 2025 BookAura. All rights reserved.</p>
-    
-          </footer>
-      </div>
-
-    
-<script src="script.js"></script>
     <script>
       // Toggle Dark/Light Mode
       const modeToggle = document.getElementById("modeToggle");
@@ -252,7 +230,7 @@
           UserName.innerHTML = `${
             getUser?.firstName + " " + getUser?.lastName
           }`;
-          UserEmail.innerHTML = `${getUser?.emailId}`;
+          UserEmail.innerHTML = ${getUser?.emailId};
         }
       });
 
@@ -293,7 +271,7 @@
         const emailSchema =
           /^[a-z0-9._%+-]{1,50}@[a-z0-9.-]{1,50}\.[a-z]{2,}$/i;
         const passwordSchema =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,16}$/;
+          /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[^a-zA-Z0-9]).{8,16}$/;
         let error = "";
 
         if (!emailSchema.test(email)) {
@@ -320,7 +298,7 @@
         const emailSchema =
           /^[a-z0-9._%+-]{1,50}@[a-z0-9.-]{1,50}\.[a-z]{2,}$/i;
         const passwordSchema =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,16}$/;
+          /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[^a-zA-Z0-9]).{8,16}$/;
         let error = "";
 
         if (!fullNameSchema.test(name)) {
@@ -397,7 +375,7 @@
               UserName.innerHTML = `${
                 getUser?.firstName + " " + getUser?.lastName
               }`;
-              UserEmail.innerHTML = `${getUser?.emailId}`;
+              UserEmail.innerHTML = ${getUser?.emailId};
             }
           }
 
@@ -411,8 +389,3 @@
     </script>
   </body>
 </html>
-
-
-
-
-
