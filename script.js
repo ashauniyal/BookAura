@@ -24,81 +24,6 @@
             }
         });
 
-        // Mobile bottom nav active state
-        const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
-        
-        bottomNavLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                bottomNavLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // // Login/Signup Dropdown Functionality
-        // const accountBtn = document.getElementById('accountBtn');
-        // const authDropdown = document.getElementById('authDropdown');
-        // const showSignup = document.getElementById('showSignup');
-        // const showLogin = document.getElementById('showLogin');
-        // const loginForm = document.querySelector('.auth-form');
-        // const signupForm = document.getElementById('signupForm');
-        // const loginBtn = document.getElementById('loginBtn');
-        // const signupBtn = document.getElementById('signupBtn');
-       
-
-        // // Toggle dropdown visibility
-        // accountBtn.addEventListener('click', function(e) {
-        //     e.stopPropagation();
-        //     authDropdown.classList.toggle('show');
-        // });
-
-        // // Hide dropdown when clicking outside
-        // document.addEventListener('click', function(e) {
-        //     if (!authDropdown.contains(e.target) && e.target !== accountBtn) {
-        //         authDropdown.classList.remove('show');
-        //     }
-        // });
-
-        // // Switch to signup form
-        // showSignup.addEventListener('click', function(e) {
-        //     e.preventDefault();
-        //     loginForm.style.display = 'none';
-        //     signupForm.style.display = 'block';
-        // });
-
-        // // Switch to login form
-        // showLogin.addEventListener('click', function(e) {
-        //     e.preventDefault();
-        //     signupForm.style.display = 'none';
-        //     loginForm.style.display = 'block';
-        // });
-
-        // // Simple form validation and submission
-        // loginBtn.addEventListener('click', function() {
-        //     const email = document.getElementById('loginEmail').value;
-        //     const password = document.getElementById('loginPassword').value;
-            
-        //     if (email && password) {
-        //         alert('Login successful!');
-        //         authDropdown.classList.remove('show');
-        //         // Here you would typically send the data to your server
-        //     } else {
-        //         alert('Please fill in all fields');
-        //     }
-        // });
-
-        // signupBtn.addEventListener('click', function() {
-        //     const name = document.getElementById('signupName').value;
-        //     const email = document.getElementById('signupEmail').value;
-        //     const password = document.getElementById('signupPassword').value;
-            
-        //     if (name && email && password) {
-        //         alert('Account created successfully!');
-        //         authDropdown.classList.remove('show');
-        //         // Here you would typically send the data to your server
-        //     } else {
-        //         alert('Please fill in all fields');
-        //     }
-        // });
          // Login/Signup Dropdown Functionality
       const accountBtn = document.getElementById("accountBtn");
       const authDropdown = document.getElementById("authDropdown");
@@ -282,6 +207,16 @@
           alert("Something went wrong");
         }
       }
+
+        // Mobile bottom nav active state
+        const bottomNavLinks = document.querySelectorAll('.bottom-nav-link');
+        
+        bottomNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                bottomNavLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
          // Set up PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
@@ -573,3 +508,4 @@
 
 
         //             POSTS LOGIC CONTAINER ->
+
