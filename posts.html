@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Bookaura-Web App</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -11,16 +11,17 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  
     <div class="container">
       <!-- Top Navigation Bar -->
       <nav class="top-nav">
         <div class="logo">BOOKAURA</div>
         <div class="nav-links">
-          <a href="index.html" >Home</a>
+          <a href="index.html" class="active">Home</a>
           <a href="explore.html">Explore</a>
           <a href="book.html">Book</a>
           <a href="library.html">Library</a>
-          <a href="posts.html" class="active">Posts</a>
+          <a href="posts.html">Posts</a>
         </div>
         <div class="nav-right">
           <button class="toggle-btn" id="modeToggle">
@@ -73,6 +74,133 @@
       </nav>
     </div>
 
+    <div class="container">  
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="total-books">0</div>
+                <div class="stat-label">Total Books</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-rating">0.0</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="recent-added">0</div>
+                <div class="stat-label">Added This Month</div>
+            </div>
+        </div>
+        
+        <div class="password-section card">
+            <h2 class="card-title">Access Your Posts</h2>
+            <p>Enter your password to view and manage your book collection</p>
+            <div class="form-group password-input">
+                <input type="password" id="password-input" placeholder="Enter your password">
+            </div>
+            <button id="access-btn" class="btn"><i class="fas fa-key"></i> ENTER KEY</button>
+        </div>
+        
+        <div id="app" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Add New Book</h2>
+                    <i class="fas fa-plus-circle" style="color: var(--secondary); font-size: 1.8rem;"></i>
+                </div>
+                
+                <div class="book-details">
+                    <div class="form-group">
+                        <label for="book-title"><i class="fas fa-book"></i> Book Title</label>
+                        <input type="text" id="book-title" placeholder="Enter book title">
+                    </div>
+                    <div class="form-group">
+                        <label for="book-author"><i class="fas fa-user-edit"></i> Author</label>
+                        <input type="text" id="book-author" placeholder="Enter author name">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="book-description"><i class="fas fa-align-left"></i> Description / Review</label>
+                    <textarea id="book-description" placeholder="Write your book description or review here..."></textarea>
+                </div>
+                
+                <div class="book-details">
+                    <div class="form-group">
+                        <label for="book-genre"><i class="fas fa-tags"></i> Genre</label>
+                        <select id="book-genre">
+                            <option value="">Select Genre</option>
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Science Fiction">Science Fiction</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Biography">Biography</option>
+                            <option value="History">History</option>
+                            <option value="Self-Help">Self-Help</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> Book Cover (Optional)</label>
+                    <div class="image-upload-container" id="image-upload-container">
+                        <p><i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 10px; color: #bdc3c7;"></i></p>
+                        <p>Drag & drop a book cover image here or click to browse</p>
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                        <button class="btn btn-warning" id="browse-btn" style="margin-top: 15px;"><i class="fas fa-folder-open"></i> Browse Files</button>
+                        <img id="image-preview" class="image-preview" alt="Book cover preview">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Rating</label>
+                    <div class="rating-stars" id="rating-stars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <div class="rating-value" id="rating-value">No rating</div>
+                </div>
+                
+                <button id="save-book" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Your Library</h2>
+                    <i class="fas fa-book" style="color: var(--secondary); font-size: 1.8rem;"></i>
+                </div>
+                <div id="books-container">
+                    <!-- Books will be displayed here -->
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Library Management</h2>
+                    <i class="fas fa-cog" style="color: var(--secondary); font-size: 1.8rem;"></i>
+                </div>
+                <p>Change your password or clear your entire library</p>
+                <div class="form-row">
+                    <button id="change-password" class="btn"><i class="fas fa-key"></i> Change Password</button>
+                    <button id="clear-all" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Clear All Books</button>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Notification message</span>
+    </div>
+
+
+
     <!-- Bottom Navigation for Mobile -->
     <nav class="bottom-nav">
       <div class="bottom-nav-links">
@@ -98,9 +226,422 @@
         </a>
       </div>
 
- 
-<script src="script.js"></script>
+        <script src="script.js"></script>
+
+
+<script > 
+         // DOM Elements
+        const passwordSection = document.querySelector('.password-section');
+        const passwordInput = document.getElementById('password-input');
+        const accessBtn = document.getElementById('access-btn');
+        const app = document.getElementById('app');
+        const bookTitle = document.getElementById('book-title');
+        const bookAuthor = document.getElementById('book-author');
+        const bookDescription = document.getElementById('book-description');
+        const bookGenre = document.getElementById('book-genre');
+        const bookStatus = document.getElementById('book-status');
+        const saveBookBtn = document.getElementById('save-book');
+        const booksContainer = document.getElementById('books-container');
+        const changePasswordBtn = document.getElementById('change-password');
+        const clearAllBtn = document.getElementById('clear-all');
+        const notification = document.getElementById('notification');
+        const imageUpload = document.getElementById('image-upload');
+        const browseBtn = document.getElementById('browse-btn');
+        const imagePreview = document.getElementById('image-preview');
+        const imageUploadContainer = document.getElementById('image-upload-container');
+        const ratingStars = document.querySelectorAll('.star');
+        const ratingValue = document.getElementById('rating-value');
+        const totalBooksEl = document.getElementById('total-books');
+        const avgRatingEl = document.getElementById('avg-rating');
+        const recentAddedEl = document.getElementById('recent-added');
+        
+        // App State
+        let books = [];
+        let password = '';
+        let currentRating = 0;
+        let currentImage = null;
+        
+        // Initialize the app
+        function init() {
+            // Check if password is already set
+            const storedPassword = localStorage.getItem('bibliothecaPassword');
+            if (storedPassword) {
+                // Password exists, show password input
+                passwordSection.classList.remove('hidden');
+            } else {
+                // No password set, create one
+                createPassword();
+            }
+            
+            // Load books if password is set
+            if (storedPassword) {
+                password = storedPassword;
+                loadBooks();
+            }
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            accessBtn.addEventListener('click', accessBooks);
+            saveBookBtn.addEventListener('click', saveBook);
+            changePasswordBtn.addEventListener('click', changePassword);
+            clearAllBtn.addEventListener('click', clearAllBooks);
+            browseBtn.addEventListener('click', () => imageUpload.click());
+            
+            // Image upload handling
+            imageUpload.addEventListener('change', handleImageUpload);
+            
+            // Drag and drop for images
+            imageUploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                imageUploadContainer.classList.add('dragover');
+            });
+            
+            imageUploadContainer.addEventListener('dragleave', () => {
+                imageUploadContainer.classList.remove('dragover');
+            });
+            
+            imageUploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                imageUploadContainer.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    imageUpload.files = e.dataTransfer.files;
+                    handleImageUpload();
+                }
+            });
+            
+            // Rating stars
+            ratingStars.forEach(star => {
+                star.addEventListener('click', () => setRating(parseInt(star.dataset.value)));
+                star.addEventListener('mouseover', () => highlightStars(parseInt(star.dataset.value)));
+            });
+            
+            document.getElementById('rating-stars').addEventListener('mouseleave', resetStars);
+            
+            // Allow pressing Enter in password field
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    accessBooks();
+                }
+            });
+        }
+        
+        // Create a new password
+        function createPassword() {
+            const newPassword = prompt('Set a password to secure your virtual library:');
+            if (newPassword && newPassword.trim() !== '') {
+                password = newPassword.trim();
+                localStorage.setItem('bibliothecaPassword', password);
+                passwordSection.classList.add('hidden');
+                app.classList.remove('hidden');
+                showNotification('Password set successfully!', 'success');
+            } else {
+                showNotification('Password is required to secure your library', 'error');
+                createPassword(); // Try again
+            }
+        }
+        
+        // Access books with password
+        function accessBooks() {
+            const enteredPassword = passwordInput.value.trim();
+            const storedPassword = localStorage.getItem('bibliothecaPassword');
+            
+            if (enteredPassword === storedPassword) {
+                password = enteredPassword;
+                passwordSection.classList.add('hidden');
+                app.classList.remove('hidden');
+                loadBooks();
+                showNotification('Access granted! Welcome to your library.', 'success');
+            } else {
+                showNotification('Incorrect password. Please try again.', 'error');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+        
+        // Load books from localStorage
+        function loadBooks() {
+            const encryptedBooks = localStorage.getItem('bibliothecaBooks');
+            if (encryptedBooks) {
+                try {
+                    books = JSON.parse(encryptedBooks);
+                    renderBooks();
+                    updateStats();
+                } catch (e) {
+                    console.error('Error loading books:', e);
+                    books = [];
+                }
+            } else {
+                books = [];
+            }
+        }
+        
+        // Handle image upload
+        function handleImageUpload() {
+            const file = imageUpload.files[0];
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentImage = e.target.result;
+                        imagePreview.src = currentImage;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    showNotification('Please select a valid image file', 'error');
+                }
+            }
+        }
+        
+        // Set rating
+        function setRating(value) {
+            currentRating = value;
+            updateRatingDisplay();
+        }
+        
+        // Highlight stars on hover
+        function highlightStars(value) {
+            ratingStars.forEach(star => {
+                if (parseInt(star.dataset.value) <= value) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        // Reset stars to current rating
+        function resetStars() {
+            highlightStars(currentRating);
+        }
+        
+        // Update rating display
+        function updateRatingDisplay() {
+            ratingValue.textContent = currentRating > 0 ? `${currentRating}/5` : 'No rating';
+            highlightStars(currentRating);
+        }
+        
+        // Save a new book
+        function saveBook() {
+            const title = bookTitle.value.trim();
+            const author = bookAuthor.value.trim();
+            const description = bookDescription.value.trim();
+            const genre = bookGenre.value;
+            const status = bookStatus.value;
+            
+            if (!title || !author) {
+                showNotification('Please fill in at least title and author', 'error');
+                return;
+            }
+            
+            const newBook = {
+                id: Date.now(),
+                title: title,
+                author: author,
+                description: description,
+                genre: genre,
+                status: status,
+                image: currentImage,
+                rating: currentRating,
+                date: new Date().toLocaleString()
+            };
+            
+            books.unshift(newBook); // Add to beginning of array
+            saveBooksToStorage();
+            renderBooks();
+            updateStats();
+            
+            // Clear form
+            bookTitle.value = '';
+            bookAuthor.value = '';
+            bookDescription.value = '';
+            bookGenre.value = '';
+            bookStatus.value = 'Want to Read';
+            currentImage = null;
+            imagePreview.style.display = 'none';
+            imageUpload.value = '';
+            currentRating = 0;
+            updateRatingDisplay();
+            
+            showNotification('Book added to your library!', 'success');
+        }
+        
+        // Save books to localStorage
+        function saveBooksToStorage() {
+            localStorage.setItem('bibliothecaBooks', JSON.stringify(books));
+        }
+        
+        // Render books to the DOM
+        function renderBooks() {
+            if (books.length === 0) {
+                booksContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Your library is empty</h3>
+                        <p>Add your first book using the form above</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let booksHTML = '';
+            books.forEach(book => {
+                let imageHTML = '';
+                if (book.image) {
+                    imageHTML = `
+                        <div class="post-image">
+                            <img src="${book.image}" alt="Book cover">
+                        </div>
+                    `;
+                }
+                
+                let ratingHTML = '';
+                if (book.rating > 0) {
+                    ratingHTML = `
+                        <div class="post-rating">
+                            <div class="rating-stars">
+                                ${Array(5).fill(0).map((_, i) => 
+                                    `<span class="star ${i < book.rating ? 'active' : ''}">★</span>`
+                                ).join('')}
+                            </div>
+                            <div class="rating-value">${book.rating}/5</div>
+                        </div>
+                    `;
+                }
+                
+                let genreHTML = '';
+                if (book.genre) {
+                    genreHTML = `<span><i class="fas fa-tag"></i> ${book.genre}</span>`;
+                }
+                
+                booksHTML += `
+                    <div class="post">
+                        ${imageHTML}
+                        <div class="post-content">
+                            <h3 class="post-title">${escapeHtml(book.title)} <span class="status-badge" style="background: ${getStatusColor(book.status)}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;">${book.status}</span></h3>
+                            <div class="post-meta">
+                                <span><i class="fas fa-user-edit"></i> ${escapeHtml(book.author)}</span>
+                                ${genreHTML}
+                                <span><i class="fas fa-calendar"></i> ${book.date}</span>
+                            </div>
+                            ${ratingHTML}
+                            <div class="post-description">${escapeHtml(book.description).replace(/\n/g, '<br>')}</div>
+                            <div class="post-actions">
+                                <button class="btn btn-danger" onclick="deleteBook(${book.id})"><i class="fas fa-trash-alt"></i> Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            booksContainer.innerHTML = booksHTML;
+        }
+        
+        // Get color for status badge
+        function getStatusColor(status) {
+            switch(status) {
+                case 'Want to Read': return '#3498db';
+                case 'Currently Reading': return '#f39c12';
+                case 'Finished Reading': return '#27ae60';
+                default: return '#7f8c8d';
+            }
+        }
+        
+        // Update statistics
+        function updateStats() {
+            totalBooksEl.textContent = books.length;
+            
+            // Calculate average rating
+            const ratedBooks = books.filter(book => book.rating > 0);
+            if (ratedBooks.length > 0) {
+                const totalRating = ratedBooks.reduce((sum, book) => sum + book.rating, 0);
+                avgRatingEl.textContent = (totalRating / ratedBooks.length).toFixed(1);
+            } else {
+                avgRatingEl.textContent = '0.0';
+            }
+            
+            // Calculate books added this month
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const recentBooks = books.filter(book => {
+                const bookDate = new Date(book.id);
+                return bookDate.getMonth() === currentMonth && bookDate.getFullYear() === currentYear;
+            });
+            recentAddedEl.textContent = recentBooks.length;
+        }
+        
+        // Delete a book
+        function deleteBook(id) {
+            if (confirm('Are you sure you want to remove this book from your library?')) {
+                books = books.filter(book => book.id !== id);
+                saveBooksToStorage();
+                renderBooks();
+                updateStats();
+                showNotification('Book removed from library', 'success');
+            }
+        }
+        
+        // Change password
+        function changePassword() {
+            const currentPassword = prompt('Enter your current password:');
+            if (currentPassword !== password) {
+                showNotification('Incorrect current password', 'error');
+                return;
+            }
+            
+            const newPassword = prompt('Enter your new password:');
+            if (newPassword && newPassword.trim() !== '') {
+                password = newPassword.trim();
+                localStorage.setItem('bibliothecaPassword', password);
+                showNotification('Password changed successfully!', 'success');
+            } else {
+                showNotification('Password cannot be empty', 'error');
+            }
+        }
+        
+        // Clear all books
+        function clearAllBooks() {
+            if (confirm('Are you sure you want to clear your entire library? This action cannot be undone.')) {
+                books = [];
+                saveBooksToStorage();
+                renderBooks();
+                updateStats();
+                showNotification('Library cleared', 'success');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            notification.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Escape HTML to prevent XSS
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        // Make deleteBook function available globally
+        window.deleteBook = deleteBook;
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);</script>
+        
 </body>
-
 </html>
-
