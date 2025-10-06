@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bookaura-Web App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="container">
+      <!-- Top Navigation Bar -->
+      <nav class="top-nav">
+        <div class="logo">BOOKAURA</div>
+        <div class="nav-links">
+          <a href="index.html" class="active">Home</a>
+          <a href="explore.html">Explore</a>
+          <a href="book.html">Book</a>
+          <a href="library.html">Library</a>
+          <a href="posts.html">Posts</a>
+        </div>
+        <div class="nav-right">
+          <button class="toggle-btn" id="modeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="account-btn" id="accountBtn">
+            <i class="fas fa-user-circle"></i>
+          </button>
+
+          <!-- Login/Signup Dropdown -->
+          <div class="auth-dropdown" id="authDropdown">
+            <h3>Welcome to Bookaura</h3>
+            <div class="auth-form">
+              <input type="email" placeholder="Email Address" id="loginEmail" />
+              <input
+                type="password"
+                placeholder="Password"
+                id="loginPassword"
+              />
+              <button id="loginBtn">Login</button>
+              <p>
+                Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+              </p>
+            </div>
+
+            <div class="auth-form" style="display: none" id="signupForm">
+              <input type="text" placeholder="Full Name" id="signupName" />
+              <input
+                type="email"
+                placeholder="Email Address"
+                id="signupEmail"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                id="signupPassword"
+              />
+              <button id="signupBtn">Create Account</button>
+              <p>
+                Already have an account? <a href="#" id="showLogin">Login</a>
+              </p>
+            </div>
+            <div style="display: none" id="dashboard">
+              <p id="UserName"></p>
+              <p id="UserEmail"></p>
+              <button class="logout" id="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="bottom-nav">
+      <div class="bottom-nav-links">
+        <a href="index.html" class="bottom-nav-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="explore.html" class="bottom-nav-link">
+          <i class="fas fa-compass"></i>
+          <span>Explore</span>
+        </a>
+        <a href="book.html" class="bottom-nav-link">
+          <i class="fas fa-book"></i>
+          <span>Book</span>
+        </a>
+        <a href="library.html" class="bottom-nav-link active">
+          <i class="fas fa-book-open"></i>
+          <span>Library</span>
+        </a>
+        <a href="posts.html" class="bottom-nav-link">
+          <i class="fas fa-file-alt"></i>
+          <span>Posts</span>
+        </a>
+      </div>
+
+
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
