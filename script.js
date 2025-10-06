@@ -225,9 +225,7 @@
 
 
 
-    <!-- PDF.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script>
+   
         // Toggle Dark/Light Mode
         const modeToggle = document.getElementById('modeToggle');
         const body = document.body;
@@ -618,4 +616,5 @@
         stopBtn.addEventListener('click', stopSpeech);
 
                
+
 
