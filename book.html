@@ -145,9 +145,295 @@
 
     <!-- PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="script.js"></script>
+    <script >
+        
+        // PDF Reader Variables
+        const pdfUpload = document.getElementById('pdfUpload');
+        const uploadTrigger = document.getElementById('uploadTrigger');
+        const fileName = document.getElementById('fileName');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const progressBar = document.getElementById('progressBar');
+        const zoomInBtn = document.getElementById('zoomIn');
+        const zoomOutBtn = document.getElementById('zoomOut');
+        const zoomLevel = document.getElementById('zoomLevel');
+        const rateSlider = document.getElementById('rate');
+        const rateValue = document.getElementById('rateValue');
+        const pitchSlider = document.getElementById('pitch');
+        const pitchValue = document.getElementById('pitchValue');
+        const voiceSelect = document.getElementById('voiceSelect');
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let isPaused = false;
+        let currentText = '';
+        let scale = 1.0;
+        let voices = [];
+
+        // Load available voices
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+            
+            voices.forEach((voice, i) => {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                voiceSelect.appendChild(option);
+            });
+            
+            // Set default to English voice if available
+            const englishVoice = voices.find(voice => voice.lang.startsWith('en'));
+            if (englishVoice) {
+                voiceSelect.value = voices.indexOf(englishVoice);
+            }
+        }
+
+        // Load voices when they become available
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // Update slider values display
+        rateSlider.addEventListener('input', () => {
+            rateValue.textContent = rateSlider.value;
+        });
+
+        pitchSlider.addEventListener('input', () => {
+            pitchValue.textContent = pitchSlider.value;
+        });
+
+        // Zoom functionality
+        zoomInBtn.addEventListener('click', () => {
+            if (scale < 3) {
+                scale += 0.1;
+                updateZoom();
+            }
+        });
+
+        zoomOutBtn.addEventListener('click', () => {
+            if (scale > 0.5) {
+                scale -= 0.1;
+                updateZoom();
+            }
+        });
+
+        function updateZoom() {
+            zoomLevel.textContent = Math.round(scale * 100) + '%';
+            if (pdfDoc) {
+                renderPage(pageNum);
+            }
+        }
+
+        // Trigger file input when upload button is clicked
+        uploadTrigger.addEventListener('click', () => {
+            pdfUpload.click();
+        });
+
+        // Handle PDF file selection
+        pdfUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                fileName.textContent = `Selected: ${file.name}`;
+                
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    const typedarray = new Uint8Array(this.result);
+                    
+                    // Load PDF using the binary data
+                    pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                        pdfDoc = pdf;
+                        pageNum = 1;
+                        pageInfo.textContent = `Page: ${pageNum} / ${pdf.numPages}`;
+                        
+                        // Enable navigation buttons
+                        prevPageBtn.disabled = pageNum <= 1;
+                        nextPageBtn.disabled = pageNum >= pdf.numPages;
+                        
+                        // Enable voice controls
+                        playBtn.disabled = false;
+                        pauseBtn.disabled = false;
+                        stopBtn.disabled = false;
+                        
+                        // Render the first page
+                        renderPage(pageNum);
+                    }).catch(function(error) {
+                        console.error('Error loading PDF:', error);
+                        pdfViewer.innerHTML = '<p>Error loading PDF. Please try another file.</p>';
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            } else {
+                fileName.textContent = 'Please select a valid PDF file';
+            }
+        });
+
+        // Render a specific page
+        function renderPage(num) {
+            pageRendering = true;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Clear the viewer and append the canvas
+                pdfViewer.innerHTML = '';
+                pdfViewer.appendChild(canvas);
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                    
+                    // Extract text for text-to-speech
+                    page.getTextContent().then(function(textContent) {
+                        currentText = textContent.items.map(item => item.str).join(' ');
+                    });
+                });
+            });
+            
+            pageInfo.textContent = `Page: ${num} / ${pdfDoc.numPages}`;
+            
+            // Update button states
+            prevPageBtn.disabled = num <= 1;
+            nextPageBtn.disabled = num >= pdfDoc.numPages;
+        }
+
+        // Navigate to previous page
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            if (pageRendering) {
+                pageNumPending = pageNum;
+            } else {
+                renderPage(pageNum);
+                stopSpeech();
+            }
+        }
+
+        // Navigate to next page
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            if (pageRendering) {
+                pageNumPending = pageNum;
+            } else {
+                renderPage(pageNum);
+                stopSpeech();
+            }
+        }
+
+        // Event listeners for page navigation
+        prevPageBtn.addEventListener('click', onPrevPage);
+        nextPageBtn.addEventListener('click', onNextPage);
+
+        // Text-to-Speech Functions
+        function playSpeech() {
+            if (speechSynthesis.speaking && !isPaused) {
+                pauseSpeech();
+                return;
+            }
+            
+            if (isPaused) {
+                resumeSpeech();
+                return;
+            }
+            
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
+            
+            if (currentText) {
+                currentUtterance = new SpeechSynthesisUtterance(currentText);
+                
+                // Apply settings
+                currentUtterance.rate = parseFloat(rateSlider.value);
+                currentUtterance.pitch = parseFloat(pitchSlider.value);
+                
+                // Set selected voice
+                const selectedVoice = voices[voiceSelect.value];
+                if (selectedVoice) {
+                    currentUtterance.voice = selectedVoice;
+                }
+                
+                currentUtterance.onboundary = function(event) {
+                    const progress = (event.charIndex / currentText.length) * 100;
+                    progressBar.style.width = progress + '%';
+                };
+                
+                currentUtterance.onend = function() {
+                    progressBar.style.width = '100%';
+                    setTimeout(() => {
+                        progressBar.style.width = '0%';
+                    }, 1000);
+                    playBtn.querySelector('i').className = 'fas fa-play';
+                    playBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+                };
+                
+                speechSynthesis.speak(currentUtterance);
+                playBtn.querySelector('i').className = 'fas fa-pause';
+                playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                isPaused = false;
+            }
+        }
+
+        function pauseSpeech() {
+            if (speechSynthesis.speaking && !isPaused) {
+                speechSynthesis.pause();
+                playBtn.querySelector('i').className = 'fas fa-play';
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+                isPaused = true;
+            }
+        }
+
+        function resumeSpeech() {
+            if (isPaused) {
+                speechSynthesis.resume();
+                playBtn.querySelector('i').className = 'fas fa-pause';
+                playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                isPaused = false;
+            }
+        }
+
+        function stopSpeech() {
+            speechSynthesis.cancel();
+            playBtn.querySelector('i').className = 'fas fa-play';
+            playBtn.innerHTML = '<i class="fas fa-play"></i> Play';
+            progressBar.style.width = '0%';
+            isPaused = false;
+            currentUtterance = null;
+        }
+
+        // Event listeners for voice controls
+        playBtn.addEventListener('click', playSpeech);
+        pauseBtn.addEventListener('click', pauseSpeech);
+        stopBtn.addEventListener('click', stopSpeech);
+    </script>
 </body>
 
 </html>
+
 
 
