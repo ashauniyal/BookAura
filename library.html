@@ -13,7 +13,483 @@
 <body>
     <div class="container">
       <!-- Top Navigation Bar -->
+      <nav class="top-nav"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bookaura-Web App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: #ecf0f1;
+        } */
+
+        /* .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        } */
+        
+               
+        .bookshelf-container {
+            width: 100%;
+            height: 500px;
+            max-width: 1000px;
+            background: #2c3e50;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bookshelf-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.7), rgba(44, 62, 80, 0.9));
+            z-index: -1;
+        }
+        
+        .bookshelf {
+            width: 100%;
+            height: 400px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 25px rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .graphite-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 49%, 
+                    rgba(60, 60, 60, 0.3) 50%, 
+                    rgba(60, 60, 60, 0.3) 51%, 
+                    transparent 52%),
+                linear-gradient(0deg, 
+                    transparent 49%, 
+                    rgba(60, 60, 60, 0.2) 50%, 
+                    rgba(60, 60, 60, 0.2) 51%, 
+                    transparent 52%),
+                linear-gradient(135deg, transparent 49%, rgba(40, 40, 40, 0.2) 50%, transparent 51%);
+            background-size: 30px 30px, 30px 30px, 30px 30px;
+            opacity: 0.7;
+            border-radius: 8px;
+        }
+        
+        /* .book-stand {
+            margin-top: 200px;
+            position: absolute;
+            width: 85%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(200, 200, 200, 0.8) 10%, 
+                rgba(200, 200, 200, 0.9) 50%, 
+                rgba(200, 200, 200, 0.8) 90%, 
+                transparent 100%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        } */
+/*         
+        .stand-support {
+            margin-top: 200px;
+            position: absolute;
+            width: 8px;
+            height: 15px;
+            background: #333;
+            border-radius: 2px 2px 0 0;
+            bottom: 3px;
+        }
+        
+        .stand-support.left {
+            left: 7.5%;
+        }
+        
+        .stand-support.right {
+            right: 7.5%;
+        } */
+        
+        .back-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #2c3e50, #34495e);
+            z-index: -1;
+            border-radius: 8px;
+        }
+        
+        .reflection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            border-radius: 8px 8px 0 0;
+            pointer-events: none;
+        }
+        
+         .book-track {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            animation: scroll 30s linear infinite;
+        }
+         .book {
+            flex-shrink: 0;
+            width: 180px;
+            height: 250px;
+            margin: 0 20px;
+            background: #fff;
+            border-radius: 5px 8px 8px 5px;
+            box-shadow: 
+                0 10px 20px rgba(0,0,0,0.5),
+                0 6px 6px rgba(0,0,0,0.3),
+                inset 5px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+        
+        .book::before {
+            content: '';
+            position: absolute;
+            top: 10;
+            left: 10;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 10%);
+            border-radius: 5px 8px 8px 5px;
+            pointer-events: none;
+        }
+        
+        .book::after {
+            content: '';
+            position: absolute;
+            top: 10;
+            right: 10;
+            width: 15px;
+            height: 100%;
+            /* background: linear-gradient(to right, #8b4513, #a0522d, #8b4513); */
+            border-radius: 0 8px 8px 0;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.3);
+        }
+        
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            background-color: #3498db;
+            background-size: cover;
+            background-position: center;
+            border-radius: 3px 6px 6px 3px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 10px;
+        }
+        
+        /* .book-spine {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15px;
+            height: 100%;
+            /* background: linear-gradient(to right, #8b4513, #a0522d, #8b4513); */
+            /* border-radius: 5px 0 0 5px;
+            box-shadow: inset 2px 0 5px rgba(0,0,0,0.3);
+            z-index: 1;
+        } */ */
+        
+        .book:hover {
+            transform: perspective(1000px) rotateY(-5deg) scale(1.05);
+        }
+        
+        .book-track:hover {
+            animation-play-state: paused;
+        }
+        
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+               
+        @media (max-width: 768px) {
+            .bookshelf-container {
+                padding: 1.5rem;
+            }
+            
+            .bookshelf {
+                height: 400px;
+            }
+            
+            
+            .book-stand {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .bookshelf {
+                height: 150px;
+            }
+            
+            
+            .book-stand {
+                width: 75%;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+      <!-- Top Navigation Bar -->
       <nav class="top-nav">
+        <div class="logo">BOOKAURA</div>
+        <div class="nav-links">
+          <a href="index.html" class="active">Home</a>
+          <a href="explore.html">Explore</a>
+          <a href="book.html">Book</a>
+          <a href="library.html">Library</a>
+          <a href="posts.html">Posts</a>
+        </div>
+        <div class="nav-right">
+          <button class="toggle-btn" id="modeToggle">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="account-btn" id="accountBtn">
+            <i class="fas fa-user-circle"></i>
+          </button>
+
+          <!-- Login/Signup Dropdown -->
+           <div class="auth-dropdown" id="authDropdown">
+            <h3>Welcome to Bookaura</h3>
+            <div class="auth-form">
+              <input type="email" placeholder="Email Address" id="loginEmail" />
+              <input
+                type="password"
+                placeholder="Password"
+                id="loginPassword"
+              />
+              <button id="loginBtn">Login</button>
+              <p>
+                Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+              </p>
+            </div>
+
+            <div class="auth-form" style="display: none" id="signupForm">
+              <input type="text" placeholder="Full Name" id="signupName" />
+              <input
+                type="email"
+                placeholder="Email Address"
+                id="signupEmail"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                id="signupPassword"
+              />
+              <button id="signupBtn">Create Account</button>
+              <p>
+                Already have an account? <a href="#" id="showLogin">Login</a>
+              </p>
+            </div>
+            <div style="display: none" id="dashboard">
+              <p id="UserName"></p>
+              <p id="UserEmail"></p>
+              <button class="logout" id="logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+<br><br><br><br><br>        
+        <div class="bookshelf-container">
+            <div class="bookshelf">
+                <div class="graphite-texture"></div>
+                <div class="back-panel"></div>
+                <div class="reflection"></div>
+                 <div class="book-track">
+                <!-- Books will be dynamically added here -->
+            </div>
+                <!-- <div class="book-stand">
+                    <div class="stand-support left"></div>
+                    <div class="stand-support right"></div>
+                </div> -->
+            </div>
+        </div>
+
+    </div> 
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="bottom-nav">
+      <div class="bottom-nav-links">
+        <a href="index.html" class="bottom-nav-link">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a href="explore.html" class="bottom-nav-link">
+          <i class="fas fa-compass"></i>
+          <span>Explore</span>
+        </a>
+        <a href="book.html" class="bottom-nav-link">
+          <i class="fas fa-book"></i>
+          <span>Book</span>
+        </a>
+        <a href="library.html" class="bottom-nav-link active">
+          <i class="fas fa-book-open"></i>
+          <span>Library</span>
+        </a>
+        <a href="posts.html" class="bottom-nav-link">
+          <i class="fas fa-file-alt"></i>
+          <span>Posts</span>
+        </a>
+      </div> 
+
+ 
+
+
+
+
+ <script>
+
+         document.addEventListener('DOMContentLoaded', function() {
+            const bookTrack = document.querySelector('.book-track');
+            const bookCount = 9;
+            
+            // Create books
+            for (let i = 1; i <= bookCount; i++) {
+                const book = document.createElement('div');
+                book.className = 'book';
+                
+                const bookCover = document.createElement('div');
+                bookCover.className = 'book-cover';
+                bookCover.style.backgroundImage = `url('images/img${i}.jpg')`;
+                // bookCover.textContent = `Book ${i}`;
+                
+                // const bookSpine = document.createElement('div');
+                // bookSpine.className = 'book-spine';
+                
+                book.appendChild(bookCover);
+                // book.appendChild(bookSpine);
+                bookTrack.appendChild(book);
+            }
+            
+            // Duplicate books for seamless scrolling
+            for (let i = 1; i <= bookCount; i++) {
+                const book = document.createElement('div');
+                book.className = 'book';
+                
+                const bookCover = document.createElement('div');
+                bookCover.className = 'book-cover';
+                bookCover.style.backgroundImage = `url('images/img${i}.jpg')`;
+                bookCover.textContent = `Book ${i}`;
+                
+                // const bookSpine = document.createElement('div');
+                // bookSpine.className = 'book-spine';
+                
+                book.appendChild(bookCover);
+                // book.appendChild(bookSpine);
+                // bookTrack.appendChild(book);
+            }
+            
+            // Function to highlight center books
+            function highlightCenterBooks() {
+                const books = document.querySelectorAll('.book');
+                const track = document.querySelector('.book-track');
+                const trackRect = track.getBoundingClientRect();
+                const carouselRect = document.querySelector('.book-carousel').getBoundingClientRect();
+                const carouselCenter = carouselRect.left + carouselRect.width / 2;
+                
+                books.forEach(book => {
+                    const bookRect = book.getBoundingClientRect();
+                    const bookCenter = bookRect.left + bookRect.width / 2;
+                    const distanceFromCenter = Math.abs(bookCenter - carouselCenter);
+                    
+                    // Reset all books to default size
+                    book.style.width = '180px';
+                    book.style.height = '250px';
+                    
+                    // Make books near center larger
+                    if (distanceFromCenter < 150) {
+                        book.style.width = '220px';
+                        book.style.height = '300px';
+                    }
+                });
+            }
+            
+            // Update book sizes on scroll and resize
+            window.addEventListener('scroll', highlightCenterBooks);
+            window.addEventListener('resize', highlightCenterBooks);
+            
+            // Initial highlight
+            highlightCenterBooks();
+            
+            // Update highlights periodically for the animation
+            setInterval(highlightCenterBooks, 100);
+        });
+
+ </script>
+ <script src="script.js"></script>
+</body>
+</html>
         <div class="logo">BOOKAURA</div>
         <div class="nav-links">
           <a href="index.html" class="active">Home</a>
@@ -104,4 +580,5 @@
 
 <script src="script.js"></script>
 </body>
+
 </html>
