@@ -12,7 +12,7 @@
             --border-light: #E0E0E0;
             --border-dark: #555555;
         }
-        * {
+      * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -363,63 +363,6 @@
       font-weight: 400;
     }
 
-    /* Plans Section */
-    .plans {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .plan {
-      background: #7e777720;
-      color: #111827;
-      border-radius: 20px;
-      padding: 30px 25px;
-      width: 280px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      transition: all 0.4s ease;
-      border: 3px solid transparent;
-    }
-
-    .plan:hover {
-      transform: translateY(-8px);
-      border-color: #10b981;
-      box-shadow: 0 15px 30px rgba(16, 185, 129, 0.25);
-    }
-
-    .plan h3 {
-      font-size: 1.6rem;
-      margin-bottom: 10px;
-      color: #111827;
-    }
-
-    .plan p {
-      color: #4b5563;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
-    }
-
-    .price {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #111827;
-      margin: 10px 0;
-    }
-
-    .discount {
-      color: #16a34a;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
-    .plan-description {
-      font-size: 0.95rem;
-      color: #374151;
-      margin-top: 10px;
-      line-height: 1.5;
-    }
         /*kind words*/
     .donation-text {
             text-align: left;
@@ -434,6 +377,7 @@
             font-weight: 600;
             color: #2c3e50;
         }
+
         /* Spinner for loading state */
         .loader {
             border: 4px solid #f3f3f3;
@@ -455,8 +399,8 @@
             background: linear-gradient(135deg, #3498db, #2ecc71);
             border-radius: 12px;
             padding: 3rem;
+            margin: auto;
             color: white;
-           
             justify-content: center;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -1434,3 +1378,4 @@
                 margin: 0 auto;
             }
         }
+
